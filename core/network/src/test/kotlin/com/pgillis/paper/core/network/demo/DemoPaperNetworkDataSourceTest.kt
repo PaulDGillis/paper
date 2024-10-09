@@ -29,9 +29,9 @@ class DemoPaperNetworkDataSourceTest {
     fun testDeserializationOfNewsResources() = runTest(testDispatcher) {
         assertEquals(
             NetworkItem(
-                755,
-                2,
-                ""
+                684,
+                1,
+                "Item 684"
             ),
             subject.getItems().first()
         )

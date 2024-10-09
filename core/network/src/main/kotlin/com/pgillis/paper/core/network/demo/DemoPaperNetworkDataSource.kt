@@ -27,6 +27,7 @@ class DemoPaperNetworkDataSource @Inject constructor(
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun getItems(): List<NetworkItem> =
         withContext(ioDispatcher) {
-            assets.open(HIRING_ASSET).use(networkJson::decodeFromStream)
+            val items: List<NetworkItem> = assets.open(HIRING_ASSET).use(networkJson::decodeFromStream)
+            items.filter { item -> item.isValid() }
         }
 }

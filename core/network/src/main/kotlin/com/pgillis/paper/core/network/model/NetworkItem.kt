@@ -6,5 +6,7 @@ import kotlinx.serialization.Serializable
 data class NetworkItem(
     val id: Int,
     val listId: Int,
-    val name: String
-)
+    val name: String?
+) {
+    fun isValid() = name?.isNotEmpty() == true
+}

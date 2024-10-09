@@ -1,4 +1,4 @@
-package com.pgillis.paper.core.network.retrofit;
+package com.pgillis.paper.core.network.retrofit
 
 import androidx.core.os.trace
 import com.pgillis.paper.core.network.PaperNetworkDataSource
@@ -46,5 +46,5 @@ internal class RetrofitPaperNetwork @Inject constructor(
             .create(RetrofitPaperNetworkApi::class.java)
     }
 
-    override suspend fun getItems(): List<NetworkItem> = networkApi.getItems().data
+    override suspend fun getItems(): List<NetworkItem> = networkApi.getItems().data.filter { item -> item.isValid() }
 }
