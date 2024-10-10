@@ -15,7 +15,7 @@ import javax.inject.Inject
 /**
  * [PaperNetworkDataSource] implementation that provides static news resources to aid development
  */
-class DemoPaperNetworkDataSource @Inject constructor(
+open class DemoPaperNetworkDataSource @Inject constructor(
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
     private val networkJson: Json,
     private val assets: DemoAssetManager = JvmUnitTestDemoAssetManager,
@@ -27,7 +27,6 @@ class DemoPaperNetworkDataSource @Inject constructor(
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun getItems(): List<NetworkItem> =
         withContext(ioDispatcher) {
-            val items: List<NetworkItem> = assets.open(HIRING_ASSET).use(networkJson::decodeFromStream)
-            items.filter { item -> item.isValid() }
+            assets.open(HIRING_ASSET).use(networkJson::decodeFromStream)
         }
 }

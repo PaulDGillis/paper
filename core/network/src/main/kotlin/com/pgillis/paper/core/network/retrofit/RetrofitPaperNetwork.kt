@@ -46,5 +46,5 @@ internal class RetrofitPaperNetwork @Inject constructor(
             .create(RetrofitPaperNetworkApi::class.java)
     }
 
-    override suspend fun getItems(): List<NetworkItem> = networkApi.getItems().data.filter { item -> item.isValid() }
+    override suspend fun getItems(): List<NetworkItem> = networkApi.getItems().data
 }

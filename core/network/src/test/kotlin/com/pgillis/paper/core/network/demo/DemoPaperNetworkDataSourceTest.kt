@@ -26,12 +26,12 @@ class DemoPaperNetworkDataSourceTest {
 
     @Suppress("ktlint:standard:max-line-length")
     @Test
-    fun testDeserializationOfNewsResources() = runTest(testDispatcher) {
+    fun testDeserializationOfItems() = runTest(testDispatcher) {
         assertEquals(
             NetworkItem(
-                684,
-                1,
-                "Item 684"
+                755,
+                2,
+                ""
             ),
             subject.getItems().first()
         )
