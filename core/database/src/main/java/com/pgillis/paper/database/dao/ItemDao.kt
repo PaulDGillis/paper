@@ -14,4 +14,7 @@ interface ItemDao {
 
     @Upsert
     suspend fun upsertItems(items: List<ItemEntity>)
+
+    @Query("DELETE FROM items")
+    suspend fun deleteItems()
 }

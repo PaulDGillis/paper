@@ -6,7 +6,8 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.pgillis.paper.database.PaperDatabase
 import com.pgillis.paper.database.model.ItemEntity
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 
 import org.junit.Test
@@ -42,11 +43,16 @@ class ItemDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun writeUserAndReadInList() = runBlocking {
-        val item = ItemEntity(123, 2, "Not empty")
-        itemDao.upsertItems(listOf(item))
-        itemDao.getItems().collect { items ->
-            assertEquals(items.first(), item)
-        }
+    fun writeItemEntity() = runTest {
+        val items = listOf(ItemEntity(123, 2, "Not empty"))
+        itemDao.upsertItems(items)
+        assertEquals(items, itemDao.getItems().first())
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun deleteAllItemEntities() = runTest {
+        itemDao.deleteItems()
+        assertEquals(emptyList(), itemDao.getItems().first())
     }
 }
