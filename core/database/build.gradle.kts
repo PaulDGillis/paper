@@ -8,4 +8,9 @@ android {
     namespace = "com.pgillis.paper.database"
 }
 
-dependencies {}
+dependencies {
+    androidTestImplementation(libs.androidx.test.core.ktx)
+    androidTestImplementation(libs.androidx.test.junit.ktx)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+}
