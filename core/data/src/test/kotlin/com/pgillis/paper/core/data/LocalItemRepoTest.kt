@@ -41,7 +41,7 @@ class LocalItemRepoTest {
 
         assertEquals(
             networkDataSource.getItems().filter(NetworkItem::isValid).map { it.asEntity().asPOKO() },
-            subject.getItems().first()
+            subject.observeItems().first()
         )
     }
 
@@ -55,7 +55,7 @@ class LocalItemRepoTest {
         networkDataSource.fakeNewItems = listOf(networkItem)
 
         // Assert that change doesn't exist yet
-        val subjectFlow = subject.getItems()
+        val subjectFlow = subject.observeItems()
         assertFalse(subjectFlow.first().contains(networkItem.asEntity().asPOKO()))
 
         // Refresh and assert change exists

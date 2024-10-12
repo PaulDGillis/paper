@@ -7,4 +7,7 @@ android {
     namespace = "com.pgillis.paper.feature.feed"
 }
 
-dependencies {}
+dependencies {
+    api(projects.core.data)
+    implementation(libs.androidx.compose.material3)
+}

@@ -16,11 +16,11 @@ class LocalItemRepo @Inject constructor(
     private val networkDataSource: PaperNetworkDataSource
 ) {
 
-    fun getItems() = itemDao.getItems()
+    fun observeItems() = itemDao.observeItems()
         .map { items -> items.map(ItemEntity::asPOKO) }
 
     @VisibleForTesting
-    suspend fun update() {
+    internal suspend fun update() {
         val netItems = networkDataSource.getItems()
             .filter(NetworkItem::isValid)
             .map(NetworkItem::asEntity)

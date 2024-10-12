@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface ItemDao {
 
     @Query("SELECT * FROM items ORDER BY list_id, name")
-    fun getItems(): Flow<List<ItemEntity>>
+    fun observeItems(): Flow<List<ItemEntity>>
 
     @Upsert
     suspend fun upsertItems(items: List<ItemEntity>)

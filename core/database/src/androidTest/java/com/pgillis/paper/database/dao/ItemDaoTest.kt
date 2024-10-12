@@ -46,13 +46,13 @@ class ItemDaoTest {
     fun writeItemEntity() = runTest {
         val items = listOf(ItemEntity(123, 2, "Not empty"))
         itemDao.upsertItems(items)
-        assertEquals(items, itemDao.getItems().first())
+        assertEquals(items, itemDao.observeItems().first())
     }
 
     @Test
     @Throws(Exception::class)
     fun deleteAllItemEntities() = runTest {
         itemDao.deleteItems()
-        assertEquals(emptyList(), itemDao.getItems().first())
+        assertEquals(emptyList(), itemDao.observeItems().first())
     }
 }

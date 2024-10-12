@@ -43,7 +43,15 @@ android {
     namespace = "com.pgillis.paper"
 }
 
+hilt {
+    enableAggregatingTask = true
+}
+
 dependencies {
+    implementation(projects.feature.feed)
+    implementation(projects.core.data)
+    implementation(projects.core.model)
+
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3.adaptive)
     implementation(libs.androidx.compose.material3.adaptive.layout)

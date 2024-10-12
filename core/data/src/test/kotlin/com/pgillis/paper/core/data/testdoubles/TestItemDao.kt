@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.update
 class TestItemDao: ItemDao {
     private val itemsStateFlow = MutableStateFlow(emptyList<ItemEntity>())
 
-    override fun getItems(): Flow<List<ItemEntity>> = itemsStateFlow
+    override fun observeItems(): Flow<List<ItemEntity>> = itemsStateFlow
 
     override suspend fun upsertItems(items: List<ItemEntity>) = itemsStateFlow.update { oldFlowState ->
         (oldFlowState + items).distinctBy(ItemEntity::id)
