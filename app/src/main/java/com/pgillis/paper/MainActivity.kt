@@ -33,9 +33,9 @@ class MainActivity : ComponentActivity() {
                             title = { Text(getString(R.string.app_name)) },
                         )
                     },
-                ) {
+                ) { contentPadding ->
                     FeedScreen(
-                        modifier = Modifier.padding(it),
+                        modifier = Modifier.padding(contentPadding),
                         viewModel = viewModel
                     )
                 }
