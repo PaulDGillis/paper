@@ -20,15 +20,16 @@ class LocalItemRepo @Inject constructor(
         .map { items -> items.map(ItemEntity::asPOKO) }
 
     @VisibleForTesting
-    internal suspend fun update() {
+    internal suspend fun update(onComplete: () -> Unit) {
         val netItems = networkDataSource.getItems()
             .filter(NetworkItem::isValid)
             .map(NetworkItem::asEntity)
         itemDao.upsertItems(netItems)
+        onComplete()
     }
 
-    suspend fun refresh() {
+    suspend fun refresh(onComplete: () -> Unit) {
         itemDao.deleteItems()
-        update()
+        update(onComplete)
     }
 }

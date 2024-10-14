@@ -15,10 +15,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-sealed interface FeedUiState {
-    data object Loading: FeedUiState
-    data class Success(val list: List<Item>): FeedUiState
-}
+data class FeedUiState(
+    val list: List<Item>
+)
 
 
 @HiltViewModel
@@ -26,7 +25,7 @@ class FeedViewModel @Inject constructor(
     private val itemRepo: LocalItemRepo
 ): ViewModel() {
 
-    var isRefreshing by mutableStateOf(false)
+    var isRefreshing by mutableStateOf(true)
         private set
 
     // Refresh Feed for a initial pull when opening app
@@ -35,18 +34,19 @@ class FeedViewModel @Inject constructor(
     }
 
     val uiState = itemRepo.observeItems()
-        .onCompletion { isRefreshing = false }
-        .map(FeedUiState::Success)
+        .map(::FeedUiState)
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
-            FeedUiState.Loading
+            FeedUiState(emptyList())
         )
 
     fun refreshFeed() {
         isRefreshing = true
         viewModelScope.launch {
-            itemRepo.refresh()
+            itemRepo.refresh(onComplete = {
+                isRefreshing = false
+            })
         }
     }
 }

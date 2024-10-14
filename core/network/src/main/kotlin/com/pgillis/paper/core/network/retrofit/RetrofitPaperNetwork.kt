@@ -13,16 +13,13 @@ import retrofit2.http.GET
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private const val HIRING_URL = "https://fetch-hiring.s3.amazonaws.com/hiring.json"
+private const val BASE_URL = "https://fetch-hiring.s3.amazonaws.com/"
+private const val HIRING_ENDPOINT = "hiring.json"
 
 private interface RetrofitPaperNetworkApi {
-    @GET(HIRING_URL)
-    suspend fun getItems(): NetworkResponse<List<NetworkItem>>
+    @GET(HIRING_ENDPOINT)
+    suspend fun getItems(): List<NetworkItem>
 }
-
-
-@Serializable
-private data class NetworkResponse<T>(val data: T)
 
 /**
  * [Retrofit] backed [PaperNetworkDataSource]
@@ -35,7 +32,7 @@ internal class RetrofitPaperNetwork @Inject constructor(
 
     private val networkApi = trace("RetrofitPaperNetwork") {
         Retrofit.Builder()
-            .baseUrl(HIRING_URL)
+            .baseUrl(BASE_URL)
             // We use callFactory lambda here with dagger.Lazy<Call.Factory>
             // to prevent initializing OkHttp on the main thread.
             .callFactory { okhttpCallFactory.get().newCall(it) }
@@ -46,5 +43,5 @@ internal class RetrofitPaperNetwork @Inject constructor(
             .create(RetrofitPaperNetworkApi::class.java)
     }
 
-    override suspend fun getItems(): List<NetworkItem> = networkApi.getItems().data
+    override suspend fun getItems(): List<NetworkItem> = networkApi.getItems()
 }

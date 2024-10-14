@@ -19,3 +19,7 @@ There are other limited snippets of code from NowInAndroid, didn't want to reinv
 
 The modules are setup this way for easier prototyping, while keeping each module's tests grouped together by what they're testing.
 There are some basic tests I setup for testing modules as I made them. See :core:data, :core:database, :core:network.
+
+Build Variants include demoDebug, demoRelease, prodDebug, and prodRelease. *I'd recommend setting everything to prodDebug.*
+Demo vs Prod is rather or not it checks the network. Demo using the :core:network:assets/hiring.json snapshot data for testing/prototyping. 
+Prod uses retrofit to make the request over the network.
