@@ -9,8 +9,11 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ItemDao {
 
-    @Query("SELECT * FROM items ORDER BY list_id, name")
+    @Query("SELECT *, `rowid` FROM items ORDER BY list_id, name")
     fun observeItems(): Flow<List<ItemEntity>>
+
+    @Query("SELECT *, `rowid` FROM items WHERE name LIKE '%' || :name || '%' ORDER BY list_id, name")
+    fun searchItems(name: String): Flow<List<ItemEntity>>
 
     @Upsert
     suspend fun upsertItems(items: List<ItemEntity>)

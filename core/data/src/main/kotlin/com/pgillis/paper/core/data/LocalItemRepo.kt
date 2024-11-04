@@ -8,6 +8,7 @@ import com.pgillis.paper.core.network.PaperNetworkDataSource
 import com.pgillis.paper.core.network.model.NetworkItem
 import com.pgillis.paper.database.dao.ItemDao
 import com.pgillis.paper.database.model.ItemEntity
+import com.pgillis.paper.model.CategoryItem
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -16,8 +17,12 @@ class LocalItemRepo @Inject constructor(
     private val networkDataSource: PaperNetworkDataSource
 ) {
 
-    fun observeItems() = itemDao.observeItems()
-        .map { items -> items.map(ItemEntity::asPOKO) }
+    fun observeSearchItems(name: String) = itemDao.searchItems(name)
+        .map { items ->
+            items.map(ItemEntity::asPOKO)
+                .groupBy { it.listId }
+                .map { (key, value) -> CategoryItem(key, value) }
+        }
 
     @VisibleForTesting
     internal suspend fun update(onComplete: () -> Unit) {
